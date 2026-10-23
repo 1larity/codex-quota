@@ -1,0 +1,96 @@
+{
+  "name": "codex-quota",
+  "displayName": "Codex Quota",
+  "description": "Show Codex quota usage in the VS Code status bar.",
+  "version": "0.9.2",
+  "publisher": "stellaris-local",
+  "license": "CC-BY-NC-SA-4.0",
+  "private": true,
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codexQuota.refresh",
+        "title": "Refresh",
+        "category": "Codex Quota"
+      },
+      {
+        "command": "codexQuota.openUsagePage",
+        "title": "Open Usage Page",
+        "category": "Codex Quota"
+      }
+    ],
+    "configuration": {
+      "title": "Codex Quota",
+      "properties": {
+        "codexQuota.codexPath": {
+          "type": "string",
+          "default": "codex",
+          "markdownDescription": "Path to the official `codex` executable. Use this if VS Code does not inherit your shell `PATH`.",
+          "scope": "machine"
+        },
+        "codexQuota.refreshIntervalSeconds": {
+          "type": "number",
+          "default": 60,
+          "minimum": 15,
+          "description": "How often to refresh Codex quota data (seconds, minimum 15)."
+        },
+        "codexQuota.thresholds": {
+          "type": "object",
+          "default": {
+            "redBelowPercent": 10,
+            "amberBelowPercent": 30
+          },
+          "additionalProperties": false,
+          "properties": {
+            "redBelowPercent": {
+              "type": "number",
+              "default": 10,
+              "minimum": 0,
+              "maximum": 100,
+              "markdownDescription": "Remaining percentage below which the status bar shows the red warning background. Checked first."
+            },
+            "amberBelowPercent": {
+              "type": "number",
+              "default": 30,
+              "minimum": 0,
+              "maximum": 100,
+              "markdownDescription": "Remaining percentage below which the status bar shows the amber warning background (and at or above which it shows green text)."
+            }
+          },
+          "markdownDescription": "Color-band thresholds in percent of quota _remaining_. Example: `{ \"redBelowPercent\": 5, \"amberBelowPercent\": 50 }`"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "smoke": "node test/smoke.js",
+    "vscode:prepublish": "npm test",
+    "package": "npx --yes @vscode/vsce@4.0.0 package --no-dependencies"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1larity/codex-quota.git"
+  },
+  "homepage": "https://evile.uk/redesign/projects/codex-quota/",
+  "bugs": {
+    "url": "https://github.com/1larity/codex-quota/issues"
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Requires trusted local credentials or executable access."
+    },
+    "virtualWorkspaces": false
+  }
+}

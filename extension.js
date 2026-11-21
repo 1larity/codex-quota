@@ -3,10 +3,11 @@
 const vscode = require('vscode');
 const appserver = require('./lib/appserver');
 const codexPath = require('./lib/codex-path');
+const path = require('path');
 const { createMonitor } = require('./lib/monitor');
 const quota = require('./lib/quota');
 
-const USAGE_URL = 'https://chatgpt.com/codex/settings/usage';
+const USAGE_URL = 'https://chatgpt.com/settings/usage';
 
 function getCodexPath() {
   const configuredPath = vscode.workspace.getConfiguration('codexQuota').get('codexPath');
@@ -43,6 +44,17 @@ async function load() {
   return { parsed, summary: `windows=${parsed.windows.length}` };
 }
 
+// cli.js and the opt-in MCP server (mcp.js), registered by the monitor.
+function agentOptions(provider, env) {
+  return {
+    provider,
+    cliPath: path.join(__dirname, 'cli.js'),
+    mcpPath: path.join(__dirname, 'mcp.js'),
+    version: require('./package.json').version,
+    env,
+  };
+}
+
 function activate(context) {
   createMonitor(vscode, context, {
     section: 'codexQuota',
@@ -56,6 +68,7 @@ function activate(context) {
     tooltip: quota.tooltipText,
     friendlyError,
     credentialReasons: ['not-authenticated'],
+    agent: agentOptions('codex', async () => ({ CODEX_BIN: getCodexPath() })),
   });
 }
 

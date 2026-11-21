@@ -1,5 +1,5 @@
 {
-  "name": "codex-quota",
+  "name": "quota-monitor-codex",
   "displayName": "Quota Monitor for Codex",
   "description": "Show Codex quota usage in the VS Code status bar.",
   "version": "0.10.1",

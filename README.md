@@ -7,15 +7,15 @@ Show Codex quota usage in the VS Code status bar.
 ## Install
 
 Requires VS Code 1.74.0 or newer. Install **Quota Monitor for Codex** from the
-[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=RichardBeech.codex-quota): search for it in the Extensions view, or run
+[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=RichardBeech.quota-monitor-codex): search for it in the Extensions view, or run
 
 ```sh
-code --install-extension RichardBeech.codex-quota
+code --install-extension RichardBeech.quota-monitor-codex
 ```
 
-To install from a file instead, download **codex-quota-0.10.1.vsix** from the
+To install from a file instead, download **quota-monitor-codex-0.10.1.vsix** from the
 [EVILE project page](https://evile.uk/redesign/projects/codex-quota/) and choose
-**Extensions → … → Install from VSIX…**, or run `code --install-extension codex-quota-0.10.1.vsix`.
+**Extensions → … → Install from VSIX…**, or run `code --install-extension quota-monitor-codex-0.10.1.vsix`.
 
 If you installed a VSIX before version 0.10.1, uninstall it first: earlier builds
 used a different publisher ID, so VS Code treats them as a separate extension.

@@ -1,6 +1,6 @@
 ## 0.10.1 - 2026-11-21
 
-- Published on the Visual Studio Marketplace as **Quota Monitor for Codex** (`1larity.codex-quota`). The extension ID changed: uninstall an earlier VSIX build before installing this one.
+- Published on the Visual Studio Marketplace as **Quota Monitor for Codex** (`RichardBeech.codex-quota`). The extension ID changed: uninstall an earlier VSIX build before installing this one.
 - Square Marketplace icon.
 
 ## 0.10.0 - 2026-11-21

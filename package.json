@@ -1,15 +1,16 @@
 {
   "name": "codex-quota",
-  "displayName": "Codex Quota",
+  "displayName": "Quota Monitor for Codex",
   "description": "Show Codex quota usage in the VS Code status bar.",
-  "version": "0.10.0",
-  "publisher": "stellaris-local",
+  "version": "0.10.1",
+  "publisher": "1larity",
   "license": "CC-BY-NC-SA-4.0",
   "private": true,
   "engines": {
     "vscode": "^1.74.0"
   },
   "categories": [
+    "Visualization",
     "Other"
   ],
   "activationEvents": [
@@ -97,7 +98,7 @@
     "test": "node --test test/*.test.js",
     "smoke": "node test/smoke.js",
     "vscode:prepublish": "npm test",
-    "package": "npx --yes @vscode/vsce@4.0.0 package --no-dependencies",
+    "package": "npx --yes @vscode/vsce@4.1.1 package --no-dependencies --githubBranch public",
     "cli": "node cli.js",
     "mcp": "node mcp.js"
   },
@@ -115,5 +116,16 @@
       "description": "Requires trusted local credentials or executable access."
     },
     "virtualWorkspaces": false
-  }
+  },
+  "icon": "assets/icon.png",
+  "keywords": [
+    "codex",
+    "openai",
+    "chatgpt",
+    "quota",
+    "usage",
+    "rate limits",
+    "status bar",
+    "mcp"
+  ]
 }

@@ -1,3 +1,8 @@
+## 0.10.1 - 2026-11-21
+
+- Published on the Visual Studio Marketplace as **Quota Monitor for Codex** (`1larity.codex-quota`). The extension ID changed: uninstall an earlier VSIX build before installing this one.
+- Square Marketplace icon.
+
 ## 0.10.0 - 2026-11-21
 
 - Optional MCP server for coding agents, off by default: `mcp.js` with the tools `get_quota` and `get_all_quotas`. Toggle it from the link at the foot of the status bar tooltip, the **Codex Quota: Toggle MCP Server** command, or `codexQuota.mcp.enabled`. While on, VS Code lists the server under its MCP servers.

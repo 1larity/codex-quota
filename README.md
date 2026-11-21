@@ -1,31 +1,24 @@
-<p align="center"><img src="assets/logo.png" alt="Codex Quota" width="640"></p>
+<p align="center"><img src="assets/logo.png" alt="Quota Monitor for Codex" width="640"></p>
 
-# Codex Quota
+# Quota Monitor for Codex
 
 Show Codex quota usage in the VS Code status bar.
 
 ## Install
 
-Requires VS Code 1.74.0 or newer. Download **codex-quota-0.10.0.vsix** from the
-[EVILE project page](https://evile.uk/redesign/projects/codex-quota/).
-
-1. Open **Extensions → … → Install from VSIX…**.
-2. Select the downloaded file.
-3. Run **Developer: Reload Window** if the extension has not appeared.
-
-Or install from a terminal:
+Requires VS Code 1.74.0 or newer. Install **Quota Monitor for Codex** from the
+[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=1larity.codex-quota): search for it in the Extensions view, or run
 
 ```sh
-code --install-extension codex-quota-0.10.0.vsix
+code --install-extension 1larity.codex-quota
 ```
 
-Show your current [OpenAI Codex](https://developers.openai.com/codex/) quota usage in the VS Code status bar.
+To install from a file instead, download **codex-quota-0.10.1.vsix** from the
+[EVILE project page](https://evile.uk/redesign/projects/codex-quota/) and choose
+**Extensions → … → Install from VSIX…**, or run `code --install-extension codex-quota-0.10.1.vsix`.
 
-```
-$(pulse) Codex 5h 82% · W 61%
-```
-
-Percentages mean **remaining** quota: `5h 82%` is 82% left in the 5-hour window, `W 61%` is 61% left in the weekly window.
+If you installed a VSIX before version 0.10.1, uninstall it first: earlier builds
+used a different publisher ID, so VS Code treats them as a separate extension.
 
 ## What it does
 
@@ -216,7 +209,7 @@ and no compilation step. Use Node.js 22+ for development.
 ```sh
 npm test
 node --check extension.js
-npx --yes @vscode/vsce@4.0.0 package --no-dependencies
+npx --yes @vscode/vsce@4.1.1 package --no-dependencies --githubBranch public
 ```
 
 Open the checkout in VS Code and press **F5** to launch an Extension Development

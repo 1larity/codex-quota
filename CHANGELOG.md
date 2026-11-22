@@ -1,3 +1,7 @@
+## 0.10.2 - 2026-11-22
+
+- Updated the user guide and feature list.
+
 ## 0.10.1 - 2026-11-21
 
 - Published on the Visual Studio Marketplace as **Quota Monitor for Codex** (`RichardBeech.quota-monitor-codex`). The extension ID changed: uninstall an earlier VSIX build before installing this one.

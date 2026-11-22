@@ -14,9 +14,8 @@ Show Codex quota usage in the VS Code status bar.
 
 ## Get started
 
-1. Install **Quota Monitor for Codex** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=RichardBeech.quota-monitor-codex). VS Code 1.74 or newer is required.
-2. Install the official Codex CLI and sign in with `codex login`. The extension can also find Codex bundled with the OpenAI ChatGPT extension.
-3. Look for **Codex** in the status bar. Hover for quota details and reset times; click to refresh or double-click to open the usage page.
+1. Install the official Codex CLI and sign in with `codex login`. The extension can also find Codex bundled with the OpenAI ChatGPT extension.
+2. Look for **Codex** in the status bar. Hover for quota details and reset times; click to refresh or double-click to open the usage page.
 
 If VS Code cannot find the CLI, set `codexQuota.codexPath` in your User settings to the executable's full path.
 

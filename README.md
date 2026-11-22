@@ -4,82 +4,33 @@
 
 Show Codex quota usage in the VS Code status bar.
 
-## Install
+## Features
 
-Requires VS Code 1.74.0 or newer. Install **Quota Monitor for Codex** from the
-[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=RichardBeech.quota-monitor-codex): search for it in the Extensions view, or run
+- See remaining quota in the VS Code status bar, with colour warnings when it runs low.
+- Hover for usage windows and reset times.
+- Refresh on demand or open the provider's usage page from the Command Palette.
+- Adjust the refresh interval and warning thresholds.
+- Optionally make quota information available to coding agents through MCP.
 
-```sh
-code --install-extension RichardBeech.quota-monitor-codex
-```
+## Get started
 
-To install from a file instead, download **quota-monitor-codex-0.10.1.vsix** from the
-[EVILE project page](https://evile.uk/redesign/projects/codex-quota/) and choose
-**Extensions → … → Install from VSIX…**, or run `code --install-extension quota-monitor-codex-0.10.1.vsix`.
+1. Install **Quota Monitor for Codex** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=RichardBeech.quota-monitor-codex). VS Code 1.74 or newer is required.
+2. Install the official Codex CLI and sign in with `codex login`. The extension can also find Codex bundled with the OpenAI ChatGPT extension.
+3. Look for **Codex** in the status bar. Hover for quota details and reset times; click to refresh or double-click to open the usage page.
 
-If you installed a VSIX before version 0.10.1, uninstall it first: earlier builds
-used a different publisher ID, so VS Code treats them as a separate extension.
+If VS Code cannot find the CLI, set `codexQuota.codexPath` in your User settings to the executable's full path.
 
-## What it does
+Open the Command Palette with `Ctrl+Shift+P` on Windows/Linux or `Cmd+Shift+P` on macOS and search for **Codex Quota** to find the available commands.
 
-On activation (and on a timer), the extension:
+## Commands
 
-1. Starts the official local `codex app-server` process over stdio.
-2. Performs the JSON-RPC handshake (`initialize` → `initialized`).
-3. Calls the read-only `account/rateLimits/read` method.
-4. Renders the remaining percentages in the status bar.
-5. Terminates the app-server process.
+- **Codex Quota: Refresh**
+- **Codex Quota: Open Usage Page**
+- **Codex Quota: Toggle MCP Server**
 
-Only the focused VS Code window polls; other windows catch up when they regain focus. Clicking the status bar item refreshes immediately. Double-clicking it opens the Codex usage dashboard ([chatgpt.com/settings/usage](https://chatgpt.com/settings/usage)) in your browser; the same page is available via **Codex Quota: Open Usage Page**.
+## Reading your quota
 
-Banked rate-limit resets (granted by referrals or promotions) show as a line in the hover tooltip when the account has any; they are deliberately kept off the status bar. Purchased ChatGPT credits are **not** exposed by the local Codex app-server, so this extension cannot show them; they are listed on the usage dashboard.
-
-## Status bar colors
-
-The background color reflects the most constrained window (the lowest remaining percentage across the shown windows), using the thresholds from `codexQuota.thresholds` (defaults shown):
-
-| Lowest remaining | Appearance |
-| --- | --- |
-| below `redBelowPercent` (10) | dark red background tint |
-| below `amberBelowPercent` (30) | amber background tint |
-| at or above `amberBelowPercent` | green text |
-
-Example of moving the bands:
-
-```json
-"codexQuota.thresholds": {
-  "redBelowPercent": 5,
-  "amberBelowPercent": 50
-}
-```
-
-Changes apply immediately, with no reload.
-
-VS Code only allows extensions two status bar background colors at all (`statusBarItem.errorBackground` and `statusBarItem.warningBackground`); every other background id is silently dropped by the extension host, so a green background is not possible. The healthy state is therefore signaled with green text (`#2EA043`, chosen to stay readable on both dark and light themes).
-
-The red and amber tints are translucent theme colors. If you prefer solid fills, override them:
-
-```json
-"workbench.colorCustomizations": {
-  "statusBarItem.errorBackground": "#8B2323",
-  "statusBarItem.warningBackground": "#9A6700"
-}
-```
-
-High-contrast themes deliberately get no background fill. When data is unavailable the colors are cleared.
-
-## Requirements
-
-- VS Code 1.74+
-- The official Codex CLI, installed and on VS Code's `PATH` (or set `codexQuota.codexPath`), logged in (`codex login`). When the setting is left at its default, the extension also discovers the current Codex binary bundled with the installed OpenAI ChatGPT extension, so extension updates do not leave a stale versioned path behind.
-
-## Installation
-
-```bash
-code --install-extension codex-quota-<version>.vsix
-```
-
-Then run `Developer: Reload Window` if the status bar item does not appear.
+The status bar shows remaining percentages for available usage windows. Hover for more detail. By default, a red warning indicates less than 10% remaining, amber indicates less than 30%, and green indicates 30% or more. The most constrained window determines the colour. You can change the thresholds in Settings.
 
 ## Settings
 
@@ -90,45 +41,19 @@ Then run `Developer: Reload Window` if the status bar item does not appear.
 | `codexQuota.thresholds` | `{ "redBelowPercent": 10, "amberBelowPercent": 30 }` | Color-band thresholds in percent remaining: below `redBelowPercent` shows the red tint, below `amberBelowPercent` the amber tint, otherwise green text. Red is checked first; values are clamped to 0–100. |
 | `codexQuota.mcp.enabled` | `false` | Lets coding agents read this quota through the MCP server. Toggle it from the link at the foot of the status bar tooltip. |
 
-## Security / privacy design
-
-This extension **does**:
-
-- start the official local Codex app-server (`codex app-server`) as a child process
-- request Codex rate-limit/quota metadata from it over local stdio
-- show that data in the VS Code status bar
-
-This extension **does not**:
-
-- read Codex credential files (`~/.codex/auth.json` and friends)
-- read Codex session files
-- read workspace source code
-- send telemetry
-- send credentials anywhere
-- make independent HTTP/network requests
-- invoke Codex model prompts or consume quota
-
-Because the extension launches the official Codex CLI under your own account, the Codex process itself performs whatever authenticated communication Codex requires. This extension only reads the rate-limit metadata that Codex returns and renders it locally.
 
 ## Troubleshooting
 
-- `$(warning) Codex ?` means the last refresh failed; hover the item for the reason. `$(key) Codex ?` means Codex is not logged in.
-- Check the CLI works in a terminal:
+- A key icon and `Codex ?` means Codex is not signed in; run `codex login`.
+- A warning icon means the last refresh failed; hover for the reason.
+- If the executable cannot be found, check `codex --version` in a terminal and set `codexQuota.codexPath` in User settings.
+- Check the **Codex Quota** output channel under **View > Output** for status messages.
 
-  ```bash
-  codex --version
-  codex app-server --help
-  ```
+## Privacy and access
 
-- If `codex` is not found from within VS Code (e.g. VS Code was launched from the desktop and does not inherit your shell `PATH`), point `codexQuota.codexPath` at the absolute path of the `codex` executable. An explicitly configured path takes precedence over automatic discovery.
-- If you are not logged in, run `codex login` in a terminal; this extension never performs authentication.
-- The `Codex Quota` output channel (View → Output) contains sanitized status lines (fixed failure reason codes, no response data).
+The extension uses the local Codex app-server to retrieve rate limits. Purchased ChatGPT credits are available on the usage dashboard but are not exposed by the app-server. The extension sends no telemetry. Never include keys, tokens or account responses in bug reports.
 
-## Privacy and workspace trust
-
-This extension is disabled in untrusted and virtual workspaces. Set `codexQuota.codexPath` in **User settings**; project settings cannot choose an executable. The CLI runs with your local account permissions.
-No telemetry is sent by this extension. Review provider-specific credential
-handling above. Never include keys, tokens or account responses in bug reports.
+This extension is disabled in untrusted and virtual workspaces.
 
 ## Licence
 
@@ -200,24 +125,3 @@ args = ["<folder>/mcp.js"]
 ```
 
 Any one server reports all installed providers, so one entry per agent is enough. Give that entry `ZAI_API_KEY_COMMAND` (see the GLM Quota README) so GLM can answer through it too.
-
-## Developer guide
-
-The extension is plain CommonJS JavaScript with **no runtime npm dependencies**
-and no compilation step. Use Node.js 22+ for development.
-
-```sh
-npm test
-node --check extension.js
-npx --yes @vscode/vsce@4.1.1 package --no-dependencies --githubBranch public
-```
-
-Open the checkout in VS Code and press **F5** to launch an Extension Development
-Host. Run `npm test` for the offline test suite.
-
-- `extension.js`: VS Code integration.
-- `lib/`: provider clients, parsers and monitor lifecycle.
-- `test/`: offline regression coverage.
-- `.vscodeignore`: files included in the extension package.
-
-See [SECURITY.md](SECURITY.md) for sensitive reporting guidance.
